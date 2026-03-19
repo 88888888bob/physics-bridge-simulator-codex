@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Physics Bridge Simulator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="control-panel">
+        <div>
+          <p class="eyebrow">Structural Dynamics Lab</p>
+          <h1>3D Physics Bridge Simulator</h1>
+          <p class="subtitle">
+            A truss bridge model with elastic members, damping, gravity, vehicle loading,
+            stress visualization, and live structural metrics.
+          </p>
+        </div>
+
+        <section class="card control-grid">
+          <label>
+            Span length
+            <input id="spanSegments" type="range" min="8" max="24" step="2" value="14" />
+            <span id="spanSegmentsValue">14 panels</span>
+          </label>
+          <label>
+            Bridge height
+            <input id="bridgeHeight" type="range" min="3" max="10" step="0.5" value="5.5" />
+            <span id="bridgeHeightValue">5.5 m</span>
+          </label>
+          <label>
+            Deck stiffness
+            <input id="stiffness" type="range" min="150" max="900" step="10" value="480" />
+            <span id="stiffnessValue">480 kN/m</span>
+          </label>
+          <label>
+            Material damping
+            <input id="damping" type="range" min="0.88" max="0.995" step="0.001" value="0.963" />
+            <span id="dampingValue">0.963</span>
+          </label>
+          <label>
+            Vehicle mass
+            <input id="vehicleMass" type="range" min="600" max="8000" step="100" value="2800" />
+            <span id="vehicleMassValue">2,800 kg</span>
+          </label>
+          <label>
+            Vehicle speed
+            <input id="vehicleSpeed" type="range" min="0.1" max="2.5" step="0.1" value="0.8" />
+            <span id="vehicleSpeedValue">0.8×</span>
+          </label>
+          <label>
+            Wind force
+            <input id="windForce" type="range" min="0" max="20" step="0.5" value="3.5" />
+            <span id="windForceValue">3.5 kN lateral</span>
+          </label>
+          <div class="button-row">
+            <button id="rebuildButton" class="primary">Rebuild Bridge</button>
+            <button id="toggleLoadButton">Pause Vehicle</button>
+            <button id="resetViewButton">Reset Camera</button>
+          </div>
+        </section>
+
+        <section class="card metrics">
+          <div>
+            <span>Maximum deflection</span>
+            <strong id="deflectionMetric">0.00 m</strong>
+          </div>
+          <div>
+            <span>Peak member stress ratio</span>
+            <strong id="stressMetric">0%</strong>
+          </div>
+          <div>
+            <span>Estimated factor of safety</span>
+            <strong id="fosMetric">∞</strong>
+          </div>
+          <div>
+            <span>Dominant bridge state</span>
+            <strong id="stateMetric">Stable</strong>
+          </div>
+        </section>
+
+        <section class="card notes">
+          <h2>Simulation notes</h2>
+          <ul>
+            <li>Each bridge member behaves like a spring under axial deformation.</li>
+            <li>Gravity, moving axle load, and lateral wind act on every timestep.</li>
+            <li>Supports are pinned at the abutments, while interior nodes move freely.</li>
+            <li>Color shifts from cyan to amber to red as member utilization increases.</li>
+          </ul>
+        </section>
+      </aside>
+
+      <main class="viewport-panel">
+        <div id="sceneContainer" aria-label="3D bridge simulation viewport"></div>
+        <div class="hud">
+          <div><span>Vehicle Position</span><strong id="vehicleMetric">0%</strong></div>
+          <div><span>Midspan Bounce</span><strong id="bounceMetric">0.00 m/s</strong></div>
+          <div><span>Wind Response</span><strong id="windMetric">Nominal</strong></div>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
